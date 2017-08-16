@@ -4,7 +4,10 @@
     </head>
     <body>
         <h1>Hi, I'm the client web app</h1>
-        <div id='message'></div>
+        <div>
+            <pre id='messages'>
+            </pre>
+        </div>
         <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -12,7 +15,7 @@
         <script>
             $.get({ url: '/api' })
                 .done(function( data ) {
-                    $('#message').text("I pinged the server, and got back: " + data);
+                    $('#messages').text(JSON.stringify(data, null, 4));
                 });
         </script>
     </body>

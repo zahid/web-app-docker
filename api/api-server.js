@@ -5,12 +5,26 @@
  */
 
 const http = require('http');
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+    host     : 'database',
+    user     : 'root',
+    password : '',
+    database : 'web_app_db'
+});
 
 const server = http.createServer(function (req, res) {
-    console.log('API-Server just for a request for', req.url);
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write('Pong');
-    res.end();
+    console.log('API-Server just got a request for', req.url);
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    connection.query('SELECT * FROM messages;', function (error, results, fields) {
+        if (error) {
+            console.error("There was an error:", error);
+        } else {
+            res.write(JSON.stringify(results));
+        }
+        res.end();
+    });
 });
 
 server.listen(3000, (err) => {
