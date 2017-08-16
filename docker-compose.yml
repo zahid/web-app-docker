@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    database:
+        image: mysql:8
+        container_name: database
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    api:
+        build: ./api
+        container_name: api
+        ports:
+            - 3000:3000
+        depends_on:
+            - database
+    client:
+        build: ./client
+        container_name: client
+        volumes:
+            - client-web-app:/client-src
+    webserver:
+        build: ./webserver
+        container_name: webserver
+        depends_on:
+            - client
+            - api
+        ports:
+            - 80:80
+        volumes:
+            - client-web-app:/client-src
+    setup-and-initialize:
+        build: ./setup-and-initialize
+        container_name: setup-and-initialize
+        depends_on:
+            - database
+
+volumes:
+    client-web-app: # This is empty to inherit default configuration

@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Client web App</title>
+    </head>
+    <body>
+        <h1>Hi, I'm the client web app</h1>
+        <div id='message'></div>
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+        <script>
+            $.get({ url: '/api' })
+                .done(function( data ) {
+                    $('#message').text("I pinged the server, and got back: " + data);
+                });
+        </script>
+    </body>
+
+</html>
